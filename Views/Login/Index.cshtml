@@ -1,0 +1,67 @@
+﻿@model OnlineLearningPortal.Models.User
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Post)) // Ensure correct action & controller
+{
+    <div class="form-horizontal">
+        <!-- Role -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(
+                    model => model.Role,
+                    new SelectList(new[]
+                    {
+                        new { Value = "ADMIN", Text = "Admin" },
+                        new { Value = "INSTRUCTOR", Text = "Instructor" },
+                        new { Value = "STUDENT", Text = "Student" }
+                    }, "Value", "Text"),
+                    "Select Role", // Default Placeholder
+                    new { @class = "form-control" }
+                )
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Login" class="btn btn-primary" />
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Register")'">Register</button>
+            </div>
+        </div>
+    </div>
+}
+<div>
+    <h4>Logins for test purposes:</h4>
+    Admin: example@gmail.com, example  <br/>
+    Instructor: alice.walker@example.com, password <br/>
+    Student: john.doe@example.com, password
+</div>

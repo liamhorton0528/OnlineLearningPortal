@@ -1,0 +1,47 @@
+﻿@model OnlineLearningPortal.Models.Thread
+
+@{
+    var messagePartner = "";
+    if (Model.User_1_role == Session["UserRole"].ToString() && Model.User_1_id == Convert.ToInt32(Session["UserId"]))
+    {
+        messagePartner = "[" + Model.User_2_role + "] - " + Model.User_2_name;
+    }
+    else
+    {
+        messagePartner = "[" + Model.User_1_role + "] - " + Model.User_1_name;
+    }
+}
+
+<h4>
+    <span style="text-decoration:underline">
+        Conversation with @messagePartner
+    </span>
+</h4>
+<div class="messages" id="messages">
+    @foreach (var message in Model.Messages)
+    {
+        <div class="message">
+            <b>@message.Sender</b>
+            <span style="font-size: x-small"><i>@message.Timestamp</i></span><br />
+            <i>@message.Content</i>
+        </div>
+    }
+</div>
+<hr />
+@using (Ajax.BeginForm("SendMessage", "Instructor", new { threadId = Model.Id }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "thread",
+    InsertionMode = InsertionMode.Replace
+}, new { @class = "message-form", @id = "message-form" }))
+{
+    <input type="text" id="content" name="content" value="@Request.QueryString["content"]" placeholder="Type message..." />
+    <button type="submit" class="btn btn-sm btn-primary" maxlength="500">Send</button>
+}
+
+<script>
+    $j(document).ready(function () {
+        var $el = $j("#messages");
+        $el.scrollTop($el[0].scrollHeight);
+    });
+</script>

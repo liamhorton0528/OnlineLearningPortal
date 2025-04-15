@@ -1,0 +1,56 @@
+﻿@model List<OnlineLearningPortal.Models.CourseViewModel>
+
+<h2>Courses</h2>
+@Html.ActionLink("Home", "Index", "Instructor", new { @class = "btn btn-primary btn-sm" })
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var courseModel in Model)
+        {
+            <tr>
+                <td>@courseModel.Course.Title</td>
+                <td>
+                    @if (courseModel.IsAssigned)
+                    {
+                        <!-- Button to drop the course if it's assigned to the instructor -->
+                        using (Html.BeginForm("DropCourse", "Instructor", new { courseId = courseModel.Course.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Drop the Course" class="btn btn-danger" />
+                        }
+                    }
+                    else
+                    {
+                        <!-- Button to add the course if it’s not assigned to the instructor -->
+                        using (Html.BeginForm("AddCourse", "Instructor", new { courseId = courseModel.Course.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Add the Course" class="btn btn-success" />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h4>Create New Course</h4>
+@using (Html.BeginForm("CreateNewCourse", "Instructor", FormMethod.Post))
+{
+    <label>Course Title:  </label>
+    <input type="text" class="form-control" id="title" name="title" required />
+    <br />
+    <label>Description: </label>
+    <input type="text" class="form-control" id="description" name="description" required />
+    <br />
+    <label>Time Slot</label>
+    <input type="text" class="form-control" id="timeslot" name="timeslot" required />
+    <br />
+    <button type="submit" class="btn btn-primary btn-sm">Create Course</button>
+}

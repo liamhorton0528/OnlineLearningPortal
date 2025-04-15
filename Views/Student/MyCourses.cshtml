@@ -1,0 +1,30 @@
+﻿@model List<OnlineLearningPortal.Models.Course>
+
+<h2>My Courses</h2>
+@Html.ActionLink("Home", "Index", "Student", new { @class = "btn btn-primary btn-sm" })
+
+@foreach (var course in Model)
+{
+    <div class="option" onclick="window.location.href='@Url.Action("Course", "Student", new {id = course.Id})'">
+        <div>
+            <b>@course.Title</b>
+            <br />
+            <i>@course.Instructor.Name</i>
+        </div>
+        <br />
+    </div>
+}
+
+<style>
+    .option {
+        padding: 10px 0px 10px 40px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        margin: 1%;
+    }
+
+        .option:hover {
+            background-color: lightgrey;
+            cursor: pointer;
+        }
+</style>

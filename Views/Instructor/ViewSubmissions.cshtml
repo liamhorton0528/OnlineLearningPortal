@@ -1,0 +1,80 @@
+﻿@model OnlineLearningPortal.Models.Assignment
+
+<html>
+<body>
+    <h2>@Model.Name Submissions</h2>
+    <hr />
+
+    <div class="main">
+        <div class="submission-list">
+            @foreach(var submission in Model.Submissions.ToList())
+            {
+                using (Ajax.BeginForm("SelectSubmission", "Instructor", new {submissionId = submission.Id}, new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "submission",
+                    InsertionMode = InsertionMode.Replace
+                }, new { @class = "select-submission-form" }))
+                {
+                    <div class="submission-list-item">
+                        <b>@submission.Student.Name's Submission</b>
+                    </div>
+                }
+            }
+        </div>
+        <div class="submission" id="submission">
+            <i>Select a submission to view...</i>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    var $j = jQuery.noConflict();
+
+    $j(document).on("click", ".submission-list-item", function () {
+        $j(".submission-list-item").removeClass("active-submission");
+        $j(this).addClass("active-submission");
+        $j(this).closest("form.select-submission-form").submit();
+    });
+</script>
+
+<style>
+    .main {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 700px;
+    }
+
+    .submission-list {
+        width: 20%;
+        border-right: 1px solid lightgrey;
+        border-left: 1px solid lightgrey;
+    }
+
+    .submission-list-item {
+        border-top: 1px solid lightgrey;
+        border-bottom: 1px solid lightgrey;
+        padding: 2%;
+    }
+        .submission-list-item:hover {
+            cursor: pointer;
+            background-color: lightblue;
+        }
+
+    .active-submission {
+        background-color: lightblue;
+    }
+
+    .submission {
+        width: 80%;
+        margin-left: 2%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+</style>

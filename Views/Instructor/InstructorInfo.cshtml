@@ -1,0 +1,36 @@
+﻿@model OnlineLearningPortal.Models.Instructor
+@Html.ActionLink("MyCourses", "MyCourses", "Instructor", null, new { @class = "nav-link" })
+@{
+    ViewBag.Title = "Instructor Information";
+}
+
+<h2>My Information</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd>@Model.Name</dd>
+
+        <dt>Email</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Office</dt>
+        <dd>@Model.Office</dd>
+
+        <dt>Phone</dt>
+        <dd>@Model.Phone</dd>
+    </dl>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <p>Current: <img src="@Url.Content(Model.ImagePath)" alt="Instructor Image" style="height:80px;" /></p>
+    }
+    else
+    {
+        <div>No profile image selected.</div>
+    }
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "EditInstructor", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    <button type="button" class="btn btn-secondary" onclick="history.back();">Back</button>
+</p>

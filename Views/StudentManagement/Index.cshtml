@@ -1,0 +1,27 @@
+﻿@model IEnumerable<OnlineLearningPortal.Models.Student>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Students</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<p>
+    @Html.ActionLink("Back", "Index", "Admin")
+</p>
+
+<form method="get" action="@Url.Action("Index")">
+    <input type="text" name="searchQuery" value="@ViewBag.CurrentFilter" placeholder="Search by Name or Email" />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<p>
+    Sort by:
+    @Html.ActionLink("Ascending", "Index", new { sortOrder = "", searchQuery = ViewBag.CurrentFilter }) |
+    @Html.ActionLink("Descending", "Index", new { sortOrder = "name_desc", searchQuery = ViewBag.CurrentFilter })
+</p>
+
+@Html.Partial("_StudentList", Model)

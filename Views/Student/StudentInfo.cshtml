@@ -1,0 +1,25 @@
+﻿<h2>My Information</h2>
+@model OnlineLearningPortal.Models.Student
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Welcome, @Model.Name</h2>
+
+<table class="table table-bordered">
+    <tr><th>Name</th><td>@Model.Name</td></tr>
+    <tr><th>Email</th><td>@Model.Email</td></tr>
+    <tr><th>Birth Date</th><td>@Model.BirthDate.ToShortDateString()</td></tr>
+</table>
+@if (!string.IsNullOrEmpty(Model.ImagePath))
+{
+    <p>Current: <img src="@Url.Content(Model.ImagePath)" alt="Instructor Image" style="height:80px;" /></p>
+}
+else
+{
+    <div>No profile image selected.</div>
+}
+
+<p>
+    @Html.ActionLink("Edit My Info", "Edit", "Student", null, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Back", "Index", "Student", null, new { @class = "btn btn-secondary" })
+</p>

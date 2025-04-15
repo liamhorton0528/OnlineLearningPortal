@@ -1,0 +1,142 @@
+﻿@model List<OnlineLearningPortal.Models.Thread>
+
+<html>
+<body>
+    <h2>My Messages</h2>
+    <hr />
+
+    <div class="main">
+        <div class="thread-nav">
+            @using (Html.BeginForm("CreateThread", "Student", FormMethod.Post, new { @class = "create-thread-form" }))
+
+            {
+                <b>Create new thread:</b><br />
+                <label>Recipient:</label>
+                @Html.DropDownList("recipient", ViewBag.AllUsers as SelectList, "Select a user...", new { @class = "recipient-dropdown" })
+                <button type="submit" class="btn btn-sm btn-primary">Create Thread</button>
+                <br /><br />
+            }
+            <div class="thread-list" id="thread-list">
+                @foreach (var thread in Model)
+                {
+                    using (Ajax.BeginForm("SelectThread", "Student", new { threadId = thread.Id }, new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "thread",
+                        InsertionMode = InsertionMode.Replace
+                    }, new { @class = "select-thread-form" }))
+                    {
+                        <div class="thread-list-item">
+                            <b>@((thread.User_1_role == Session["UserRole"].ToString() && thread.User_1_id == Convert.ToInt32(Session["UserId"])) ? "[" + thread.User_2_role +"] - " + thread.User_2_name : "[" + thread.User_1_role + "] " + thread.User_1_name)</b>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="thread" id="thread">
+            <i>Select a message thread...</i>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    var $j = jQuery.noConflict();
+
+    $j(document).on("click", ".thread-list-item", function () {
+        $j(".thread-list-item").removeClass("active-thread");
+        $j(this).addClass("active-thread");
+        $j(this).closest("form.select-thread-form").submit();
+    });
+
+    $j(document).on("ajaxSuccess", function (event, xhr, settings) {
+        if (settings.url.includes("CreateThread")) {
+            $j(".recipient-dropdown").val("");
+        }
+
+        if (settings.url.includes("SendMessage")) {
+            var $form = $j("#message-form");
+            if ($form.length) {
+                $form[0].reset();
+            }
+        }
+    });
+</script>
+
+<style>
+    .main {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 600px;
+    }
+
+    .thread-nav, .thread {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+    }
+
+    .thread-nav {
+        width: 30%;
+        border-right: 1px solid lightgrey;
+        border-left: 1px solid lightgrey;
+    }
+
+    .thread {
+        width: 70%;
+        margin-left: 2%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .messages {
+        flex: 1;
+        overflow-y: auto;
+        justify-self: baseline;
+    }
+
+    .message {
+        margin: 0;
+        padding-left: 3%;
+        height: auto;
+        max-height: none;
+        overflow: visible;
+        word-wrap: break-word;
+        border-top: 1px solid lightgrey;
+    }
+
+    .message-form {
+        height: 10%;
+    }
+
+    #content {
+        width: 80% !important;
+        max-width: none !important;
+    }
+
+    .thread-list {
+        border-top: 1px solid lightgrey;
+        border-bottom: 1px solid lightgrey;
+        overflow-y: auto;
+    }
+
+    .thread-list-item {
+        border-top: 1px solid lightgrey;
+        padding: 2%;
+    }
+
+        .thread-list-item:hover {
+            cursor: pointer;
+            background-color: lightblue;
+        }
+
+    .create-thread-form {
+        padding: 1%;
+        border: 1px solid lightgrey;
+    }
+</style>

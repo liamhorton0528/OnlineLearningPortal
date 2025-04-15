@@ -1,0 +1,15 @@
+Monday:
+web pro - 11:40am-3:15pm
+cloud sec - 5:10pm-8:45pm
+
+Tuesday:
+business intelligence - 8:00am-11:35am
+machine learning - 2:25pm-6:00pm
+
+Wednesday:
+Project dev - 11:40am-2:20pm
+
+Thursday:
+app sec - 4:15pm-7:50pm
+
+Friday:

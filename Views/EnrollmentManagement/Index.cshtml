@@ -1,0 +1,39 @@
+﻿@model IEnumerable<OnlineLearningPortal.Models.Enrollment>
+
+<h2>Enrollments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<p>
+    @Html.ActionLink("Back", "Index", "Admin")
+</p>
+
+<form method="get" action="@Url.Action("Index")">
+    <input type="text" name="searchQuery" value="@Request.QueryString["searchQuery"]" placeholder="Search by Student Name or Course" />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <tr>
+        <th>@Html.ActionLink("Student", "Index", new { sortOrder = ViewBag.StudentSortParam })</th>
+        <th>@Html.ActionLink("Course", "Index", new { sortOrder = ViewBag.CourseSortParam })</th>
+        <th>@Html.ActionLink("Enrollment Date", "Index", new { sortOrder = ViewBag.DateSortParam })</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Student.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Course.Title)</td>
+            <td>@Html.DisplayFor(modelItem => item.EnrollmentDate)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

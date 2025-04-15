@@ -1,0 +1,21 @@
+﻿@model OnlineLearningPortal.Models.Submission
+
+<h4><span style="text-decoration:underline">@Model.Student.Name's Submission </span></h4>
+<b>Current Grade:</b> @(Model.Grade.HasValue ? $"{Model.Grade}/100" : "Not graded")<br />
+@using (Ajax.BeginForm("GradeSubmission", "Instructor", new { submissionId = Model.Id }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "submission",
+    InsertionMode = InsertionMode.Replace
+}, new { @class = "grade-form" }))
+{
+    <label>Grade:</label>
+    <input type="number" id="grade" name="grade"
+           value="@Request.QueryString["grade"]"
+           min="0" max="100" step="1"
+           style="width: 60px;" required />
+    <b>/100</b>
+    <button type="submit" class="btn btn-primary btn-sm">Submit Grade</button>
+}
+<br />
+<iframe src="@Url.Content(Model.SubmissionFilePath)" style="width: 100%; height: 100%"></iframe>

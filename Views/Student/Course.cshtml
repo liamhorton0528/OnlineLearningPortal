@@ -1,0 +1,189 @@
+﻿@model OnlineLearningPortal.Models.Course
+
+<div>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Url.Content(Model.ImagePath)" class="course-banner-img" />
+    }
+    <h4>@Model.Title</h4>
+    @Html.ActionLink("Back to courses", "MyCourses", "Student", new { @class = "btn btn-primary btn-sm" })
+    <hr />
+    <div class="section">
+        <div class="info">
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+                <dd>@Html.DisplayFor(model => model.Description)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Instructor.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Instructor.Name)</dd>
+            </dl>
+        </div>
+        <div class="main">
+            <div class="partial-options">
+                <div class="partial-option" data-target="assignments">Assignments</div>
+                <div class="partial-option" data-target="announcements">Announcement</div>
+            </div>
+            <div class="partial-view">
+                <div class="assignments">
+                    <hr />
+                    <div id="assignment-partial">
+                        @Html.Partial("_Assignments", Model.Assignments.ToList())
+                    </div>
+                </div>
+                <div class="announcements">
+                    <hr />
+                    <div id="announcement-partial">
+                        @Html.Partial("_Announcements", Model.Announcements.ToList())
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    var $j = jQuery.noConflict();
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const options = document.querySelectorAll(".partial-option");
+        const views = document.querySelectorAll(".partial-view > div");
+
+        const defaultTarget = "assignments";
+
+        views.forEach(view => {
+            if (view.classList.contains(defaultTarget)) {
+                view.style.display = "block";
+            } else {
+                view.style.display = "none";
+            }
+        });
+
+        options.forEach(option => {
+            if (option.getAttribute("data-target") === defaultTarget) {
+                option.classList.add("active");
+            }
+
+            option.addEventListener("click", () => {
+                const targetClass = option.getAttribute("data-target");
+
+                views.forEach(view => {
+                    view.style.display = view.classList.contains(targetClass) ? "block" : "none";
+                });
+
+                options.forEach(o => o.classList.remove("active"));
+                option.classList.add("active");
+            });
+        });
+
+        $j(document).on("click", ".option h4", function () {
+            $j(this).siblings(".assignment-details").slideToggle();
+        });
+
+        $j(document).on("click", ".option h4", function () {
+            $j(this).siblings(".announcement-details").slideToggle();
+        });
+    });
+</script>
+
+<style>
+    .course-banner-img {
+        width: 100%;
+        height: auto;
+        max-height: 245px; 
+        object-fit: cover;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    .option {
+        display: block;
+        padding: 10px 70px 10px 40px;
+        margin: 1%;
+        min-width: 300px;
+        max-width: none;
+        width: 100%;
+        box-sizing: border-box;
+        align-items: flex-start;
+        overflow: visible;
+    }
+
+        .option:hover {
+            background-color: whitesmoke;
+            cursor: pointer;
+        }
+
+        .option h4:hover {
+            text-decoration: underline;
+            margin: 0;
+            padding: 0;
+        }
+
+    .assignment-details, .announcement-details {
+        display: none;
+        margin: 0;
+        padding: 0;
+        height: auto;
+        max-height: none;
+        overflow: visible;
+        word-wrap: break-word;
+    }
+
+    .section {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .info {
+         
+    }
+
+    .main {
+        margin-left: 2%;
+        padding-left: 2%;
+        border-left: 1px solid lightgray;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 70%;
+    }
+
+    .partial-view {
+        width: 100%;
+    }
+
+    .partial-options {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .partial-option {
+        padding: 0% 30% 0% 30%;
+        border: 1px solid lightgray;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .partial-option:hover {
+            background-color: lightgrey;
+        }
+
+        .partial-option.active {
+            background-color: lightblue;
+        }
+
+    .assignments,
+    .announcements{
+        display: none;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .assignments {
+        display: block; 
+    }
+
+</style>

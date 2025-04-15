@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <h2>Student Page</h2>
+    <div class="option" onclick="window.location.href='@Url.Action("MyCourses", "Student")'">
+        <h4>View My Courses</h4>
+    </div>
+    <div class="option" onclick="window.location.href='@Url.Action("Enroll", "Student")'">
+        <h4>Enroll in Courses</h4>
+    </div>
+    <div class="option" onclick="window.location.href='@Url.Action("StudentInfo", "Student")'">
+        <h4>My Information</h4>
+    </div>
+    <div class="option" onclick="window.location.href='@Url.Action("MyMessages", "Student")'">
+        <h4>My Messages</h4>
+    </div>
+</main>
+
+<style>
+    .option {
+        padding: 10px 0px 10px 40px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        margin: 1%;
+    }
+
+        .option:hover {
+            background-color: lightgrey;
+            cursor: pointer;
+        }
+</style>

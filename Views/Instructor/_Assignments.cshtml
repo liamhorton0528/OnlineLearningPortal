@@ -1,0 +1,19 @@
+﻿@model List<OnlineLearningPortal.Models.Assignment>
+
+@foreach (var assignment in Model)
+{
+    <div class="option">
+        <h4>@assignment.Name</h4>
+        <i><small>Due: @assignment.DueDate</small></i>
+        <div class="assignment-details">
+            <i>@assignment.Description</i><br />
+            @if (assignment.DocumentFilePath != null)
+            {
+                <a class="btn btn-sm btn-primary" href="@Url.Content(assignment.DocumentFilePath)">View Assignment Document</a>
+            }
+            @Html.ActionLink("View Submissions", "ViewSubmissions", new {assignmentId = assignment.Id}, new { @class = "btn btn-primary btn-sm" })
+        </div>
+    </div>
+    <hr />
+}
+

@@ -1,0 +1,18 @@
+﻿@model List<OnlineLearningPortal.Models.Course>
+
+@foreach (var course in Model)
+{
+    <div class="option">
+        <div>
+            <b>@course.Title</b>
+            <br />
+            <i>@course.Description</i>
+            <br />
+            <button class="btn btn-sm btn-primary enroll-btn" data-course-id="@course.Id" data-course-title="@course.Title">Enroll</button>
+        </div>
+        <br />
+    </div>
+}
+
+
+

@@ -1,0 +1,12 @@
+﻿@model List<OnlineLearningPortal.Models.Announcement>
+
+@foreach (var announcement in Model)
+{
+    <div class="option">
+        <h4>@announcement.Title</h4>
+        <div class="announcement-details">
+            <i>@announcement.Message</i>
+        </div>
+    </div>
+    <hr />
+}

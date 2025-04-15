@@ -1,0 +1,54 @@
+﻿@model OnlineLearningPortal.Models.Instructor
+
+@{
+    ViewBag.Title = "Edit My Information";
+}
+
+<h2>Edit My Information</h2>
+
+@using (Html.BeginForm("EditInstructor", "Instructor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Office)
+    @Html.HiddenFor(model => model.Phone)
+    @Html.HiddenFor(model => model.Password)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Profile Image", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="ImageFile" class="form-control" />
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <p>Current: <img src="@Url.Content(Model.ImagePath)" alt="Instructor Image" style="height:80px;" /></p>
+            }
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-success" />
+            <button type="button" class="btn btn-secondary" onclick="history.back();">Back</button>
+        </div>
+    </div>
+</div>
+}

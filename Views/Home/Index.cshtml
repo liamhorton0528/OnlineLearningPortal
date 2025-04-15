@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    <section class="row" aria-labelledby="portalTitle">
+        <h1 id="title">Online Learning Portal</h1>
+        <p class="lead">Welcome to the Online Learning Portal, your gateway to a world of knowledge and learning opportunities.</p>
+        <p><a href="/CourseManagement" class="btn btn-primary btn-md">Explore Courses &raquo;</a></p>
+
+        <div class="links">
+            <a href="/CourseManagement" class="link-blue">Courses</a> |
+            <a href="/InstructorManagement" class="link-blue">Instructors</a> |
+            <a href="/StudentManagement" class="link-blue">Students</a> |
+            <a href="/EnrollmentManagement" class="link-blue">Enrollments</a>
+        </div>
+    </section>
+
+    <div class="row">
+        <section class="col-md-4" aria-labelledby="coursesTitle">
+            <h2 id="coursesTitle">Courses</h2>
+            <p>
+                Discover a variety of courses across different subjects and levels. Enhance your skills and knowledge with our comprehensive course offerings.
+            </p>
+            <p><a class="btn btn-outline-dark" href="/CourseManagement">View Courses &raquo;</a></p>
+        </section>
+        <section class="col-md-4" aria-labelledby="instructorsTitle">
+            <h2 id="instructorsTitle">Instructors</h2>
+            <p>Meet our experienced instructors who are here to guide you through your learning journey. Learn from the best in the field.</p>
+            <p><a class="btn btn-outline-dark" href="/InstructorManagement">Meet Instructors &raquo;</a></p>
+        </section>
+        <section class="col-md-4" aria-labelledby="enrollmentsTitle">
+            <h2 id="enrollmentsTitle">Enrollments</h2>
+            <p>Keep track of your enrollments and manage your learning path. Stay organized and focused on your goals.</p>
+            <p><a class="btn btn-outline-dark" href="/EnrollmentManagement">Manage Enrollments &raquo;</a></p>
+        </section>
+    </div>
+    @Html.ActionLink("Test Admin", "Index", "Admin")
+    @Html.ActionLink("Test Instructor", "Index", "Instructor")
+    @Html.ActionLink("Test Student", "Index", "Student")
+</main>
+
+<style>
+    .link-blue {
+        color: blue;
+        text-decoration: none;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+        .link-blue:hover {
+            text-decoration: underline;
+        }
+</style>

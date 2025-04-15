@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Online Learning Portal</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")  
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @*@Html.ActionLink("Online Learning Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            <span class="navbar-brand">Online Learning Portal</span>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li style="align-self:center">
+                            @using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                <button type="submit" class="nav-link btn btn-link" style="border: none; background: none; padding: 0;">Logout</button>
+                            }
+                        </li>*@
+
+                    @{
+                        int userid = Session["UserId"] != null ? Convert.ToInt32(Session["UserId"]) : -1;
+                        string userrole = Session["UserRole"] != null ? Session["UserRole"].ToString() : "";
+                    }
+
+                    @if (userrole == "ADMIN")
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Admin", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Instructors", "Index", "InstructorManagement", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Students", "Index", "StudentManagement", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Courses", "Index", "CourseManagement", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Enrollments", "Index", "EnrollmentManagement", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else if (userrole == "INSTRUCTOR")
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Instructor", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("My Courses", "MyCourses", "Instructor", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Create Courses", "CreateCourse", "Instructor", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("My Information", "InstructorInfo", "Instructor", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Messages", "MyMessages", "Instructor", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else if (userrole == "STUDENT")
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Student", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("My Courses", "MyCourses", "Student", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Enroll", "Enroll", "Student", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("My Information", "StudentInfo", "Student", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Messages", "MyMessages", "Student", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Index", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Register", "Index", "Register", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    @if (!string.IsNullOrEmpty(userrole))
+                    {
+                        <li style="align-self:center">
+                            @using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                <button type="submit" class="nav-link btn btn-link" style="border: none; background: none; padding: 0;">Logout</button>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <partial name="_Navbar" />
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    <footer>
+        <div class="footer-div">
+            <div class="footer-item">
+                @if (userrole == "ADMIN")
+                {
+                    @Html.ActionLink("Home", "Index", "Admin")
+                    <a href="/Admin">&copy; @DateTime.Now.Year - Online Learning Portal</a>
+                }
+                else if (userrole == "INSTRUCTOR")
+                {
+                    @Html.ActionLink("Home", "Index", "Instructor")
+                    <a href="/Instructor">&copy; @DateTime.Now.Year - Online Learning Portal</a>
+                }
+                else if (userrole == "STUDENT")
+                {
+                    <a href="/Student">&copy; @DateTime.Now.Year - Online Learning Portal</a>
+                }
+                else
+                {
+                    <a href="/Login">&copy; @DateTime.Now.Year - Online Learning Portal</a>
+                }
+            </div>
+            <div class="footer-item">
+                <a href="https://humber.ca/">
+                    @*<img src="@Url.Content("~/Uploads/Images/humberlogo.png")" style="width: 50px; height: 50px" />*@
+                    School Website
+                </a>
+            </div>
+            <div class="footer-item">
+                <a href="https://chatgpt.com/">
+                    @*<img src="@Url.Content("~/Uploads/Images/chatgptlogo.png")" style="width: 40px; height: 40px" />*@
+                    Learning Reources
+                </a>
+            </div>
+        </div>
+
+        <partial name="_Footer" />
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<style>
+    body {
+        background-color: lightblue;
+    }
+
+    .body-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 25px;
+        max-height: 800px;
+        overflow-y: scroll;
+    }
+
+        .body-content::-webkit-scrollbar {
+            width: 10px; /* width of the scrollbar */
+        }
+
+        .body-content::-webkit-scrollbar-track {
+            background: #f1f1f1; /* light background for the track */
+            border-radius: 25px;
+        }
+
+        .body-content::-webkit-scrollbar-thumb {
+            background: #888; /* color of the scroll thumb */
+            border-radius: 25px;
+        }
+
+            .body-content::-webkit-scrollbar-thumb:hover {
+                background: #555; /* darker on hover */
+            }
+
+
+    .footer-div {
+        font-style: oblique;
+        font-weight: bold;
+        font-size:large;
+        display: flex;
+        flex-direction:row;
+        justify-content: space-evenly;
+    }
+
+        .footer-div a {
+            color: inherit; 
+            text-decoration: none; 
+            font-weight: inherit; 
+            font-style: inherit; 
+        }
+
+    .footer-item {
+        padding: 10px;
+        border-radius: 25px;
+        margin: 2px;
+        margin-top: 20px;
+    }
+
+        .footer-item:hover {
+            border: 1px solid white;
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+</style>

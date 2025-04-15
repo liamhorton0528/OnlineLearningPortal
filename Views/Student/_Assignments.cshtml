@@ -1,0 +1,52 @@
+﻿@model List<OnlineLearningPortal.Models.Assignment>
+
+@foreach (var assignment in Model)
+{
+    <div class="option">
+        <h4>@assignment.Name</h4>
+        <i><small>Due: @assignment.DueDate</small></i>
+        <div class="assignment-details">
+            <i>@assignment.Description</i><br />
+            @if (assignment.DocumentFilePath != null)
+            {
+                <p><a class="btn btn-sm btn-primary" href="@Url.Content(assignment.DocumentFilePath)">View Assignment Document</a></p>
+            }
+            <hr />
+
+            @if (ViewBag.assignmentId != null && ViewBag.assignmentId == assignment.Id && ViewBag.SubmissionError != null)
+            {
+                <div class="alert alert-danger">@ViewBag.SubmissionError</div>
+            }
+
+            @{
+                var studentId = Convert.ToInt32(Session["UserId"]);
+                var submission = assignment.Submissions.FirstOrDefault(s => s.StudentId == studentId);
+            }
+
+            @if (submission == null)
+            {
+                <b>Submit:</b><br />
+                using (Ajax.BeginForm("SubmitAssignment", "Student",
+                    new { assignmentId = assignment.Id, courseId = assignment.CourseId },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "assignment-partial"
+                    },
+                    new { enctype = "multipart/form-data", id = "ajaxUploadForm" }))
+                {
+                    <input type="file" name="submission" id="submission" /><br /><br />
+                    <button class="btn btn-sm btn-secondary" type="submit">Submit Assignment</button>
+                }
+            }
+            else
+            {
+                <b>Status:</b> <span>Submitted</span><br />
+                <b>Current Grade:</b> @(submission.Grade.HasValue ? $"{submission.Grade}/100" : "Not graded")<br />
+                <p><a class="btn btn-sm btn-primary" href="@Url.Content(submission.SubmissionFilePath)">View Submission</a></p>
+            }
+        </div>
+    </div>
+    <hr />
+}

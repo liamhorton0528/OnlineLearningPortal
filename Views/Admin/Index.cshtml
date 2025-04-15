@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <h2>Admin Page</h2>
+    <div class="option" onclick="window.location.href='@Url.Action("Index", "InstructorManagement")'">
+        <h4>Instructor Management</h4>
+    </div>
+    <div class="option" onclick="window.location.href='@Url.Action("Index", "StudentManagement")'">
+        <h4>Student Management</h4>
+    </div>
+    <div class="option" onclick="window.location.href='@Url.Action("Index", "CourseManagement")'">
+        <h4>Course Management</h4>
+    </div>
+    <div class="option" onclick="window.location.href='@Url.Action("Index", "EnrollmentManagement")'">
+        <h4>Enrollment Management</h4>
+    </div>
+    <partial name="_AdminOptions" />
+</main>
+
+<style>
+    .option {
+        padding: 10px 0px 10px 40px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        margin: 1%;
+    }
+        .option:hover {
+            background-color: lightgrey;
+            cursor: pointer;
+        }
+</style>
+
+
